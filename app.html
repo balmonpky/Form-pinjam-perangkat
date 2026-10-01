@@ -897,19 +897,8 @@
     <!-- JS DEPENDENCIES -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        const initialPegawai = [
-            { NIP: "198501012010121001", NAMA: "Drs. AHMAD WIDHIARTO, M.T.", JABATAN: "KEPALA BALAI MONITOR" },
-            { NIP: "199003212022031002", NAMA: "KRISTIAN LIMBONG, S.T.", JABATAN: "PENGENDALI FREKUENSI RADIO" }
-        ];
-
-        const initialPerangkat = [
-            {"id": 1, "no": "1", "satker": "BALMON PALANGKARAYA", "kode_barang": "3020105007", "nup": "2", "nama_bmn": "Mobil Monitoring Landrover", "nama_perangkat": "Mobil Monitoring Landrover", "merk": "LANDROVER", "type": "LANDROVER 110 DEFENDER", "tahun": "2013", "jenis": "UTAMA", "stasiun": "BERGERAK", "site": "PALANGKA RAYA", "kondisi": "BAIK", "keterangan": "DIGUNAKAN", "integrasi": "ada di web SMFR", "lokasi": "GARASI KANTOR", "foto": "", "isBorrowed": false},
-            {"id": 2, "no": "2", "satker": "BALMON PALANGKARAYA", "kode_barang": "3020105007", "nup": "3", "nama_bmn": "Mobil Monitoring Hilux", "nama_perangkat": "Mobil Monitoring Hilux", "merk": "HILUX", "type": "Hilux 2.4 Double Cabin G (4x4) M/T Diesel", "tahun": "2023", "jenis": "UTAMA", "stasiun": "BERGERAK", "site": "PALANGKA RAYA", "kondisi": "BAIK", "keterangan": "DIGUNAKAN", "integrasi": "ada di web SMFR", "lokasi": "GARASI KANTOR", "foto": "", "isBorrowed": false},
-            {"id": 3, "no": "3", "satker": "BALMON PALANGKARAYA", "kode_barang": "3030301028", "nup": "1", "nama_bmn": "POWER METER/WATT METER", "nama_perangkat": "POWER METER/WATT METER", "merk": "BIRD", "type": "4305A", "tahun": "1999", "jenis": "UTAMA", "stasiun": "PORTABLE", "site": "PALANGKA RAYA", "kondisi": "BAIK", "keterangan": "DIGUNAKAN", "integrasi": "ada di web SMFR", "lokasi": "LEMARI RUANG PERANGKAT", "foto": "", "isBorrowed": false}
-        ];
-
-        let dataPegawai = JSON.parse(localStorage.getItem('smfr_pegawai_v19')) || initialPegawai;
-        let dataPerangkat = JSON.parse(localStorage.getItem('smfr_perangkat_v19')) || initialPerangkat;
+let dataPegawai = JSON.parse(localStorage.getItem('smfr_pegawai_v19')) || defaultDataPegawai;
+        let dataPerangkat = JSON.parse(localStorage.getItem('smfr_perangkat_v19')) || defaultDataPerangkat;
         let logPeminjaman = JSON.parse(localStorage.getItem('smfr_logs_v19')) || [];
         
         let selectedFormDevices = [];
