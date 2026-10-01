@@ -302,14 +302,25 @@
             });
 
             // ==== CHART 2: KONDISI FISIK (PIE) ====
+            const kondisiLabels = Object.keys(kondisiCounts);
+            const kondisiData = Object.values(kondisiCounts);
+            
+            // Pemetaan warna agar sesuai dengan status
+            const warnaKondisi = kondisiLabels.map(label => {
+                if (label.includes('BAIK')) return '#3b82f6';         // Biru
+                if (label.includes('RINGAN')) return '#fcd34d';       // Kuning
+                if (label.includes('BERAT') || label.includes('RUSAK')) return '#ef4444'; // Merah
+                return '#94a3b8'; // Abu-abu untuk status lainnya
+            });
+
             const ctxKondisi = document.getElementById('chartKondisi').getContext('2d');
             new Chart(ctxKondisi, {
                 type: 'pie',
                 data: {
-                    labels: ['Kondisi Baik', 'Rusak Ringan', 'Rusak Berat'],
+                    labels: kondisiLabels.length > 0 ? kondisiLabels : ['Belum ada data'],
                     datasets: [{
-                        data: [condBaik, condRusakRingan, condRusakBerat],
-                        backgroundColor: ['#3b82f6', '#fcd34d', '#ef4444'],
+                        data: kondisiData.length > 0 ? kondisiData : [1],
+                        backgroundColor: kondisiLabels.length > 0 ? warnaKondisi : ['#e2e8f0'],
                         borderWidth: 0,
                         hoverOffset: 4
                     }]
