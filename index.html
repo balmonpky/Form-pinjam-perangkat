@@ -237,43 +237,38 @@
     <!-- SCRIPT UNTUK MENGAMBIL DATA & MEMBUAT GRAFIK -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Mengambil database perangkat dari LocalStorage yang sama dengan app utama
+            document.addEventListener('DOMContentLoaded', function() {
+            // 1. AMBIL DATA: Prioritaskan LocalStorage, jika kosong ambil dari file data_perangkat.js
             const rawData = localStorage.getItem('smfr_perangkat_v19');
             let dataPerangkat = [];
             
-            if (rawData) {
+            if (rawData && JSON.parse(rawData).length > 0) {
                 dataPerangkat = JSON.parse(rawData);
+            } else if (typeof defaultDataPerangkat !== 'undefined') {
+                dataPerangkat = defaultDataPerangkat; // Terhubung dengan file data_perangkat.js
             }
 
-            // Jika database kosong, tampilkan alert
             if(dataPerangkat.length === 0) {
                 console.log("Database masih kosong atau belum disetup.");
             }
 
-            // 1. Proses Data untuk Chart Ketersediaan (Tersedia vs Dipinjam)
+            // 2. PROSES DATA UNTUK GRAFIK
             let countTersedia = 0;
             let countDipinjam = 0;
             
-            // 2. Proses Data untuk Chart Kondisi
-            let condBaik = 0;
-            let condRusakRingan = 0;
-            let condRusakBerat = 0;
-
-            // 3. Proses Data untuk Chart Stasiun
+            let kondisiCounts = {}; // Array dinamis untuk menampung semua jenis kondisi
             let stasiunCounts = {};
 
             dataPerangkat.forEach(d => {
                 // Ketersediaan
                 if(d.isBorrowed) countDipinjam++; else countTersedia++;
 
-                // Kondisi
-                const kond = (d.kondisi || '').toUpperCase();
-                if(kond.includes('BERAT')) condRusakBerat++;
-                else if(kond.includes('RINGAN')) condRusakRingan++;
-                else condBaik++;
+                // Kondisi (Mengambil persis dari kolom 'kondisi' di database)
+                const kond = (d.kondisi && d.kondisi.trim() !== '') ? d.kondisi.toUpperCase() : 'TIDAK DIKETAHUI';
+                kondisiCounts[kond] = (kondisiCounts[kond] || 0) + 1;
 
                 // Stasiun
-                const st = (d.stasiun || 'LAINNYA').toUpperCase();
+                const st = (d.stasiun && d.stasiun.trim() !== '') ? d.stasiun.toUpperCase() : 'LAINNYA';
                 stasiunCounts[st] = (stasiunCounts[st] || 0) + 1;
             });
 
@@ -301,7 +296,7 @@
                 }
             });
 
-            // ==== CHART 2: KONDISI FISIK (PIE) ====
+            // ==== CHART 2: KONDISI FISIK (PIE - SEKARANG DINAMIS) ====
             const kondisiLabels = Object.keys(kondisiCounts);
             const kondisiData = Object.values(kondisiCounts);
             
